@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="zm-api-test-harness" default="jar" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<import file="../zm-zcs/ant-global.xml" />
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar destfile="${dist.dir}/lib/testHarness.jar" basedir="${build.dir}/classes" />
+	</target>
+
+	<target name="createClasspath">
+		<path id="classpath">
+			<pathelement location="${build.dir}/classes" />
+		</path>
+	</target>
+
+	<target name="runcukes" depends="compile,createClasspath">
+		<pathconvert property="classDotpathProp" refid="classpath" />
+		<echo>Classpath is ${classDotpathProp}</echo>
+		<mkdir dir="target/cucumber-junit-report" />
+		<java classname="cucumber.api.cli.Main" fork="true" failonerror="false" resultproperty="cucumber.exitstatus">
+			<classpath refid="class.path" />
+			<classpath refid="classpath" />
+			<arg value="--plugin" />
+			<arg value="html:target/cucumber-html-report" />
+			<arg value="--tags" />
+			<arg value="@test" />
+			<arg value="--glue" />
+			<arg value="stepDefinitions" />
+			<arg value="src/java/features" />
+		</java>
+		<junitreport todir="target/cucumber-junit-report">
+			<fileset dir="target/cucumber-junit-report">
+				<include name="allcukes.xml" />
+			</fileset>
+			<report format="frames" todir="target/cucumber-junit-report" />
+		</junitreport>
+		<fail message="Cucumber failed">
+			<condition>
+				<not>
+					<equals arg1="${cucumber.exitstatus}" arg2="0" />
+				</not>
+			</condition>
+		</fail>
+	</target>
+
+</project>
