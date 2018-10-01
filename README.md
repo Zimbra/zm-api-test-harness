@@ -19,7 +19,7 @@ This repository has the test harness code for GraphQL tests.
  
    It will create testHarness.jar file
    
-7. You can run testcases using build.xml or by adding debug confirmation run.
+7. You can run testcases using build.xml or by executing HarnessRunner.java class as junit test
     ```
     Build.xml:
         ant runcukes
