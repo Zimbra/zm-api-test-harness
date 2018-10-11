@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -17,10 +18,11 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
 import exception.HarnessException;
-import harness.HarnessClient;
+import net.minidev.json.JSONArray;
 import harness.HarnessContext;
 import harness.HttpRequest;
 import harness.HttpResponse;
+import harness.client.HarnessClient;
 import harness.utils.StringUtils;
 
 /**
@@ -102,7 +104,10 @@ public class Baseline {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 		return null;
 	}
 
@@ -143,6 +148,19 @@ public class Baseline {
 		}
 	}
 
+	public JSONArray getValues(HarnessContext context, String jsonPath) {
+	        jsonPath = "$." + jsonPath;
+	        response = context.getResponse();
+	        if(response == null){
+	            throw new HarnessException("Response is null");
+	        }
+	        try {
+	            return response.getBody().read(jsonPath);
+	        } catch (PathNotFoundException e) {
+	            return null;
+	        }
+	    }
+
 	public void setHeader(HarnessContext context, HashMap<String, String> header) {
 		request = context.getRequest();
 		request.setHeader(header);
@@ -162,4 +180,5 @@ public class Baseline {
 		}
 		return false;
 	}
+
 }

@@ -1,5 +1,7 @@
 package harness;
 
+import harness.client.HarnessClient;
+
 /**
  * @author swapnil.pingle
  *
