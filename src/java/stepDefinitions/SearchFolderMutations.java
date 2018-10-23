@@ -65,7 +65,7 @@ public class SearchFolderMutations extends BaseStepDefs {
 		logger.info(requestBody);
 		scenario.write("SearchFolderCreateMutation being processed :" + requestBody);
 		baseline.processRequest(context, requestBody, method);
-		searchFolderId = baseline.getValue(context, searchFolderIdJsonPath);
+		searchFolderId = (String) baseline.getValue(context, searchFolderIdJsonPath);
 		scenario.write("SearchFolder Id returned :" + searchFolderId);
 		Assert.assertTrue("Verify that searchFolder was created and valid search folder id is returned",
 				!stringUtils.isEmpty(searchFolderId));

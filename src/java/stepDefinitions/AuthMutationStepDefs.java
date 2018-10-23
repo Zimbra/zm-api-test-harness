@@ -50,7 +50,7 @@ public class AuthMutationStepDefs extends BaseStepDefs {
 		logger.info(requestBody);
 		scenario.write("AuthMutation being processed :" + requestBody);
 		baseline.processRequest(context, requestBody, method);
-		authToken = baseline.getValue(context, authTokenJsonPath);
+		authToken = (String) baseline.getValue(context, authTokenJsonPath);
 		scenario.write("AuthToken returned is :" + authToken);
 		// Assert.assertTrue("Verify that non empty authToken is returned",
 		// stringUtils.isEmpty(authToken));
