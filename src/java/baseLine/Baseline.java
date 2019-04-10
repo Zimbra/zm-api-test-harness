@@ -144,7 +144,7 @@ public class Baseline {
 		}
 		try {
 			res = response.getBody().read(jsonPath);
-			return res instanceof Long ? String.valueOf(res) : res.toString();
+			return String.valueOf(res);
 		} catch (PathNotFoundException e) {
 			return "";
 		}

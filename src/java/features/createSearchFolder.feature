@@ -18,4 +18,4 @@ Feature: SearchFolder Mutation, Query
 
     Examples: 
       | query   | name       | folderId     | searchType | method |
-      | in:Sent | Automation6 | defaultInbox | message    | post   |
+      | in:Sent | Automation | defaultInbox | message    | post   |

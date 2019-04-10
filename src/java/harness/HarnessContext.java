@@ -12,11 +12,20 @@ public class HarnessContext {
 	private static HttpResponse response;
 	private static HarnessClient harnessClient;
 	private static HarnessContext context;
+	private static Object runtimeData;
 
 	public HarnessContext() {
 		getInstance();
 		System.out.println("in harness context");
 
+	}
+
+	public static Object getRuntimeData() {
+		return runtimeData;
+	}
+
+	public static void setRuntimeData(Object runtimeData) {
+		HarnessContext.runtimeData = runtimeData;
 	}
 
 	public HttpRequest getRequest() {
