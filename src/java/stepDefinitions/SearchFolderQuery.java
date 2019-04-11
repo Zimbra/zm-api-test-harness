@@ -42,4 +42,6 @@ public class SearchFolderQuery extends BaseStepDefs {
 		baseline.processRequest(context, requestBody, method);
 		scenario.write(context.getResponse().getBody().jsonString());
 	}
+	
+	// To add validation for above
 }

@@ -21,6 +21,7 @@ public class SearchFolderMutations extends BaseStepDefs {
 	private Scenario scenario;
 	private StringUtils stringUtils;
 	private HarnessContext context;
+	private String folderName;
 
 	public SearchFolderMutations() {
 		searchFolderCreateMutation = "'query':'mutation createSearchFolderMutation($csfInput:NewSearchFolderSpecInput!){searchFolderCreate(searchFolder: $csfInput ){ name,id }}'";
@@ -59,7 +60,9 @@ public class SearchFolderMutations extends BaseStepDefs {
 			}
 			break;
 		}
-		String variables = "'variables':{'csfInput':{'query': '" + query + "','name': '" + name
+		folderName = name + Math.random();
+		context.setRuntimeData(folderName);
+		String variables = "'variables':{'csfInput':{'query': '" + query + "','name': '" + folderName
 				+ "','parentFolderId': '" + folderId + "','searchTypes': '" + searchType + "'}}";
 		String requestBody = "{" + searchFolderCreateMutation + " , " + variables + "}";
 		logger.info(requestBody);

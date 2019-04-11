@@ -138,11 +138,13 @@ public class Baseline {
 	public String getValue(HarnessContext context, String jsonPath) {
 		jsonPath = "$." + jsonPath;
 		response = context.getResponse();
+		Object res = "";
 		if(response == null){
 			throw new HarnessException("Response is null");
 		}
 		try {
-			return response.getBody().read(jsonPath);
+			res = response.getBody().read(jsonPath);
+			return String.valueOf(res);
 		} catch (PathNotFoundException e) {
 			return "";
 		}

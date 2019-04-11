@@ -1,21 +1,24 @@
-@searchFolderCreate
-Feature: SearchFolder Mutation, Query
+@session
+Feature: getSession
 
-  Scenario Outline: Log in with user account
+  Scenario Outline: verify getSession
     Given Application url '<server>' and path '<path>'
     And Request headers '<headers>'
     When Get '<account>' '<authToken>' authToken for username '<username>' and password '<password>' using '<method>' method
     Then set AuthToken in the cookie
+    Given user queries session information
 
     Examples: 
       | server       | path        | headers                                               | account | username | password | method | status | valid | authToken       |
       | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | admin    | test123  | post   |    200 | valid | zimbraAuthToken |
 
-  Scenario Outline: CreateSearchFolder Mutation
-    Given authToken is present in the cookies
-    When Create search folder for query '<query>', name '<name>', parentFolderId '<folderId>', searchType '<searchType>' using '<method>' method
-    Then Get all search folders using '<method>' method
+  Scenario Outline: Verify getSession
+    Then validate valid response is returned for '<param>'
 
     Examples: 
-      | query   | name       | folderId     | searchType | method |
-      | in:Sent | Automation | defaultInbox | message    | post   |
+      | param            |
+      | sessionId        |
+      | createdDate      |
+      | lastAccessed     |
+      | requestIPAddress |
+      | userAgent        |
