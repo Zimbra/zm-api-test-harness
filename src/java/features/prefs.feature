@@ -8,8 +8,8 @@ Feature: Verify preference query
     Then set AuthToken in the cookie
 
     Examples: 
-      | account | authToken       | method | server       | path        | headers                                               | account | username | password | status | valid | authToken       |
-      | account | zimbraAuthToken | post   | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | admin    | test123  |    200 | valid | zimbraAuthToken |
+      | account | authToken       | method | server       | path        | headers                                               | account | username    | password | status | valid | authToken       |
+      | account | zimbraAuthToken | post   | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | user_6@host | test123  |    200 | valid | zimbraAuthToken |
 
   Scenario Outline: Query preference value for the user and verify the value.
     Given User queries value for preference '<pref>'
