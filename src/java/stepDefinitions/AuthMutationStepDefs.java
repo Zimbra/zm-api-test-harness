@@ -42,6 +42,7 @@ public class AuthMutationStepDefs extends BaseStepDefs {
 	@When("^Get '(.+)' '(.+)' authToken for username '(.+)' and password '(.+)' using '(.+)' method$")
 	public void authRequestUserNamePassword(String accountType, String tokenType, String userName, String password,
 			String method) {
+	    userName = generateUserName(userName);
 		String variables = "'variables':{'authInput': {'account': {'key': '" + userName
 				+ "', 'accountBy': 'name'}, 'password': '" + password + "','tokenType':'"
 				+ tokenType.trim().toUpperCase() + "'} }";

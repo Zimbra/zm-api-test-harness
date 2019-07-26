@@ -1,5 +1,6 @@
 @test
 Feature: authMutation
+
   Scenario Outline: verify authMutation
     Given Application url '<server>' and path '<path>'
     And Request headers '<headers>'
@@ -8,8 +9,8 @@ Feature: authMutation
     And Validate authToken is '<valid>' '<authToken>' token
 
     Examples: 
-      | server       | path        | headers                                               | account | username | password        | method | status | valid   | authToken       |
-      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | admin    | test123         | post   |    200 | valid   | zimbraAuthToken |
-      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | admin    | test123         | post   |    200 | valid   | JWT             |
-      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | admin    | invalidPassword | post   |    200 | invalid | zimbraAuthToken |
-      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | admin    | invalidPassword | post   |    200 | invalid | JWT             |
+      | server       | path        | headers                                               | account | username   | password        | method | status | valid   | authToken       |
+      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | user_1@host | test123         | post   |    200 | valid   | zimbraAuthToken |
+      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | user_1@host | test123         | post   |    200 | valid   | JWT             |
+      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | user_1@host | invalidPassword | post   |    200 | invalid | zimbraAuthToken |
+      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | user_1@host | invalidPassword | post   |    200 | invalid | JWT             |

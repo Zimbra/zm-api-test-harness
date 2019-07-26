@@ -59,6 +59,12 @@ public class AppointmentStepDefs extends BaseStepDefs{
     @Given("^User '(.+)' schedules an appointment '(.+)' with user '(.+)' from '(.+)' to '(.+)'$")
     public void createAppointment(String vOrganizer, String vSubject, String vAttendee, String startTime, String endTime){
         // EmailAddress
+        if(vOrganizer.contains("@host")){
+            vOrganizer = vOrganizer.split("@")[0]+"@"+globalProperties.getProperty("server");
+        }
+        if(vAttendee.contains("@host")){
+            vAttendee = vAttendee.split("@")[0]+"@"+globalProperties.getProperty("server");
+        }
         tEmailAddress.put("addressType", "t");
         tEmailAddress.put("address", vAttendee);
         sEmailAddress.put("addressType", "s");

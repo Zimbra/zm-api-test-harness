@@ -9,8 +9,8 @@ Feature: getSession
     Given user queries session information
 
     Examples: 
-      | server       | path        | headers                                               | account | username | password | method | status | valid | authToken       |
-      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | admin    | test123  | post   |    200 | valid | zimbraAuthToken |
+      | server       | path        | headers                                               | account | username    | password | method | status | valid | authToken       |
+      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | user_5@host | test123  | post   |    200 | valid | zimbraAuthToken |
 
   Scenario Outline: Verify getSession
     Then validate valid response is returned for '<param>'

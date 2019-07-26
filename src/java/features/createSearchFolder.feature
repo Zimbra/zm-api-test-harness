@@ -8,8 +8,8 @@ Feature: SearchFolder Mutation, Query
     Then set AuthToken in the cookie
 
     Examples: 
-      | server       | path        | headers                                               | account | username | password | method | status | valid | authToken       |
-      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | admin    | test123  | post   |    200 | valid | zimbraAuthToken |
+      | server       | path        | headers                                               | account | username    | password | method | status | valid | authToken       |
+      | zimbraServer | gqlEndpoint | Accept:application/json,Content-type:application/json | account | user_2@host | test123  | post   |    200 | valid | zimbraAuthToken |
 
   Scenario Outline: CreateSearchFolder Mutation
     Given authToken is present in the cookies

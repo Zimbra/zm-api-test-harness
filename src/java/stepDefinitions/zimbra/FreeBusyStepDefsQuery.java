@@ -44,6 +44,7 @@ public class FreeBusyStepDefsQuery extends BaseStepDefs{
     
     @When("^FreeBusy status is queried for user '(.+)' for startTime '(.+)' and endTime '(.+)'$")
     public void verifyFreeBusySlots(String user, String sTime, String eTime){
+        user = generateUserName(user);
         fbQueryMap.put("vStartTime", sTime);
         fbQueryMap.put("vEndTime", eTime);
         fbQueryMap.put("vFreeBusyUsers", user);
