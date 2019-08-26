@@ -35,6 +35,7 @@ public class Baseline {
 	private static HttpResponse response;
 	public static CloseableHttpResponse executionResponse;
 	public static final String authCookieName = "ZM_AUTH_TOKEN";
+	public static final String adminAuthCookieName = "ZM_ADMIN_AUTH_TOKEN";
 	private static HarnessClient harnessClient;
 	private StringUtils stringUtils;
 	private long startTime;
@@ -182,5 +183,18 @@ public class Baseline {
 		}
 		return false;
 	}
+
+	public boolean isAdminAuthTokenPresent(HarnessContext context) {
+	        harnessClient = context.getHarnessClient();
+	        List<Cookie> cookieList = harnessClient.getCookieStore().getCookies();
+	        if (!cookieList.isEmpty()) {
+	            for (Cookie currentCookie : cookieList) {
+	                if (currentCookie.getName().equals(adminAuthCookieName)) {
+	                    return (!stringUtils.isEmpty(currentCookie.getValue()));
+	                }
+	            }
+	        }
+	        return false;
+	    }
 
 }
