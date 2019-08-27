@@ -3,6 +3,7 @@ package stepDefinitions;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.client.methods.HttpPost;
 import org.junit.Assert;
 
 import cucumber.api.Scenario;
@@ -60,7 +61,7 @@ public class AdminAuthMutationStepDefs extends BaseStepDefs {
         String requestBody = "{" + authMutation + " , " + variables + "}";
         System.out.println(requestBody);
         logger.info(requestBody);
-        baseline.processRequest(context, requestBody, "POST");
+        baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
         authToken = baseline.getValue(context, authTokenJsonPath);
         scenario.write("AuthToken returned is :" + authToken);
 
