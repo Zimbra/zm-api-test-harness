@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.client.methods.HttpPost;
+
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -50,7 +52,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variable = var.toJSONString();
         String variables = "'variables': " + variable;
         String requestBody = "{" + createMutation + " , " + variables + "}";
-        HttpResponse response = baseline.processRequest(context, requestBody, "POST");
+        HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
         context.setResponse(response);
     }
     
@@ -85,7 +87,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variable = var.toJSONString();
         String variables = "'variables': " + variable;
         String requestBody = "{" + createMutation + " , " + variables + "}";
-        HttpResponse response = baseline.processRequest(context, requestBody, "POST");
+        HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
         context.setResponse(response);
     }
     
@@ -99,7 +101,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variable = var.toJSONString();
         String variables = "'variables': " + variable;
         String requestBody = "{" + modifyMutation + " , " + variables + "}";
-        HttpResponse response = baseline.processRequest(context, requestBody, "POST");
+        HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
         context.setResponse(response);
     }
 
