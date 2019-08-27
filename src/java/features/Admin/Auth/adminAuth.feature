@@ -1,7 +1,7 @@
-Feature: SearchFolder Mutation, Query
+@adminAuth
+Feature: Admin auth mutation
 
-  @adminAuth
-  Scenario Outline: Log in with user account
+  Scenario Outline: Validate authentication for admin account
     Given Application url '<server>' and path '<path>'
     And Request headers '<headers>'
     When Generate admin authToken for user '<username>' and password '<password>'
