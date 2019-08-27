@@ -1,16 +1,16 @@
 package stepDefinitions;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import baseLine.Baseline;
 
 /**
@@ -55,6 +55,10 @@ public class BaseStepDefs {
             user = name + "@" + domain;
         }
         return user;
+    }
+
+    public int generateRandomInt(){
+        return new Random().nextInt(100000);
     }
 
 }
