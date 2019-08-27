@@ -89,9 +89,7 @@ public class AdminAuthMutationStepDefs extends BaseStepDefs {
                 if (validity.equalsIgnoreCase("valid")) {
                     Assert.assertTrue("Verify that JWT token '" + authToken + "' is valid", size == 3);
                 } else {
-                    // Assert.assertFalse("Verify that JWT token is valid", size
-                    // ==
-                    // 3);
+                    // Assert.assertFalse("Verify that JWT token is valid", size == 3);
                 }
                 break;
             case "zimbraAuthToken":
