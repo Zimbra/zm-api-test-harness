@@ -19,14 +19,18 @@ import net.minidev.json.JSONObject;
 public class AccountStepdefs extends BaseStepDefs {
     private String createMutation;
     private String modifyMutation;
+    private String getAccountMutation;
+    private String deleteAccountMutation;
     private Scenario scenario;
     private HarnessContext context;
     
     public AccountStepdefs(){
-        createMutation = "'query':'mutation ca($password:String, $name:String!, $attributes:[AttrInput]){accountCreate(name:$name, password:$password, attributes:$attributes){ account{ id,  attrList{ key, value}} }}'";
+        createMutation = "'query':'mutation ca($password:String, $name:String!, $attributes:[AttrInput]){accountCreate(name:$name, password:$password, attributes:$attributes){ account{ id, name, attrList{ key, value}} }}'";
         modifyMutation = "'query':'mutation ca($id:String!, $attributes:[AttrInput]){accountModify(id:$id, attributes:$attributes){ account{ id, name , attrList{ key, value}} }}'";
+        getAccountMutation = "'query':'query getAccount($accountBy:AccountByInput!, $key:String!, $attributes:[String]){accountGet(account:{accountBy:$accountBy,key:$key}, attributes:$attributes) { account{ id, isExternal, name,  attrList{ key, value} } }}'";
+        deleteAccountMutation = "'query':'mutation deleteAccount($id:String!){ accountDelete(id:$id)}'";
     }
-    
+
     public AccountStepdefs(HarnessContext context) {
         this();
         this.context = context;
@@ -52,11 +56,12 @@ public class AccountStepdefs extends BaseStepDefs {
         String variable = var.toJSONString();
         String variables = "'variables': " + variable;
         String requestBody = "{" + createMutation + " , " + variables + "}";
+
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
         context.setResponse(response);
     }
     
-    @Then("^Validate account is created/modified with attributes '(.+)'$")
+    @Then("^Validate account is created/modified/get with attributes '(.+)'$")
     public void validateAccountAttributes(String attributes){
         String[] attrs = attributes.split(",");
         for(String current : attrs){
@@ -64,13 +69,26 @@ public class AccountStepdefs extends BaseStepDefs {
             String attribute = keyValue[0].trim();
             String expValue = keyValue[1].trim();
             //data.accountCreate.account.attrList
-            String accountAttrPath = context.getResponse().getBody().jsonString().contains("accountCreate")? "data.accountCreate.account.attrList":"data.accountModify.account.attrList";
-            String jsonPath = accountAttrPath+"[?(@.key=='"+attribute+"')].value";
+            String accountAttrPath = "";
+            accountAttrPath = context.getResponse().getBody().jsonString().contains("accountCreate") ? "data.accountCreate.account.attrList" :
+                context.getResponse().getBody().jsonString().contains("accountModify") ? "data.accountModify.account.attrList" : "data.accountGet.account.attrList";
+
+            String jsonPath = accountAttrPath + "[?(@.key=='"+attribute+"')].value";
             String actValue = baseline.getValue(context, jsonPath);
             scenario.write("Actual value in the response: "+actValue);
             scenario.write("Expected value: [\""+expValue+"\"]");
             Assert.assertEquals("[\""+expValue+"\"]", actValue);
         }
+    }
+
+    @Then("^Validate account is deleted$")
+    public void validateAccountDelete(){
+
+            String jsonPath = "data.accountDelete";
+            String respValue = baseline.getValue(context, jsonPath);
+            scenario.write("Actual value in the response: "+respValue);
+            scenario.write("Expected value: [\"true\"]");
+            Assert.assertEquals("true", respValue.toString());
     }
 
     @Given("^Create user account with name '(.+)' password '(.+)'$")
@@ -90,7 +108,7 @@ public class AccountStepdefs extends BaseStepDefs {
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
         context.setResponse(response);
     }
-    
+
     @Then("^Attributes '(.+)' are modified for user '(.+)'$")
     public void modifyAccount(String attrList, String name){
         HashMap<String,Object> varMap = new HashMap<String,Object>();
@@ -105,11 +123,47 @@ public class AccountStepdefs extends BaseStepDefs {
         context.setResponse(response);
     }
 
+    @Given("^Create and Delete user account with name '(.+)' password '(.+)'$")
+    public void deleteAccount(String name, String password) {
+        this.createAccountNoAttrs(name, password);
+        String accountIdPath = "data.accountCreate.account.id";
+        String accountIdValue = baseline.getValue(context, accountIdPath);
+
+        HashMap<String,Object> varMap = new HashMap<String,Object>();
+        varMap.put("id", accountIdValue);
+        JSONObject var = new JSONObject(varMap);
+        String variable = var.toJSONString();
+        String variables = "'variables': " + variable;
+        String requestBody = "{" + deleteAccountMutation + " , " + variables + "}";
+        HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
+        context.setResponse(response);
+    }
+
+    @Given("^Create and Get user with name '(.+)' password '(.+)' attribute '(.+)'$")
+    public void getAccount(String name, String password, String attrList) {
+        this.createAccount(name, password, attrList);
+        String accountNamePath = "data.accountCreate.account.name";
+        String accountNameValue = baseline.getValue(context, accountNamePath);
+        scenario.write("Actual value in the response: "+accountNameValue);
+        HashMap<String,Object> varMap = new HashMap<String,Object>();
+        String[] attributes = this.setAttributesOnly(attrList);
+        varMap.put("attributes", attributes);
+        varMap.put("accountBy", "name");
+        varMap.put("key", accountNameValue);
+        JSONObject var = new JSONObject(varMap);
+        String variable = var.toJSONString();
+        String variables = "'variables': " + variable;
+        String requestBody = "{" + getAccountMutation + " , " + variables + "}";
+
+        HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
+        context.setResponse(response);
+    }
+
     private String readIDfromResponse() {
         String jsonPath = context.getResponse().getBody().jsonString().contains("accountCreate")?"data.accountCreate.account.id":"data.accountModify.account.id";
         return baseline.getValue(context, jsonPath);
     }
-    
+
     private List<Object> setAttributes(String attrlist) {
         List<Object> attrList = new ArrayList<Object>();
         
@@ -123,4 +177,13 @@ public class AccountStepdefs extends BaseStepDefs {
         return attrList;
     }
 
+    private String[] setAttributesOnly(String attributes) {
+        String[] attrArr = attributes.split(",");
+        String[] attrList = new String[attrArr.length];
+        for(int i=0; i < attrArr.length; i++){
+            String[] currentAttr = attrArr[i].trim().split("=");
+            attrList[i] = (currentAttr[0].trim());
+        }
+        return attrList;
+    }
 }
