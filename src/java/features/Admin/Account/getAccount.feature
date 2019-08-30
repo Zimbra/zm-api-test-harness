@@ -1,5 +1,5 @@
 @getAccount
-Feature: Create account mutation
+Feature: Get account mutation
 
   Scenario Outline: Log in with admin user
     Given Application url '<server>' and path '<path>'
