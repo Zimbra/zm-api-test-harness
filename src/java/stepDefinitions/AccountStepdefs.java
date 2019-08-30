@@ -143,7 +143,7 @@ public class AccountStepdefs extends BaseStepDefs {
         this.createAccount(name, password, attrList);
         String accountNamePath = "data.accountCreate.account.name";
         String accountNameValue = baseline.getValue(context, accountNamePath);
-        scenario.write("Actual value in the response: "+accountNameValue);
+        scenario.write("Actual value in the response: " + accountNameValue);
         HashMap<String,Object> varMap = new HashMap<String,Object>();
         String[] attributes = this.setAttributesOnly(attrList);
         varMap.put("attributes", attributes);
