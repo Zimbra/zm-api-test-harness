@@ -24,7 +24,7 @@ public class AccountStepdefs extends BaseStepDefs {
     private Scenario scenario;
     private HarnessContext context;
     
-    public AccountStepdefs(){
+    public AccountStepdefs() {
         createMutation = "'query':'mutation ca($password:String, $name:String!, $attributes:[AttrInput]){accountCreate(name:$name, password:$password, attributes:$attributes){ account{ id, name, attrList{ key, value}} }}'";
         modifyMutation = "'query':'mutation ca($id:String!, $attributes:[AttrInput]){accountModify(id:$id, attributes:$attributes){ account{ id, name , attrList{ key, value}} }}'";
         getAccountMutation = "'query':'query getAccount($accountBy:AccountByInput!, $key:String!, $attributes:[String]){accountGet(account:{accountBy:$accountBy,key:$key}, attributes:$attributes) { account{ id, isExternal, name,  attrList{ key, value} } }}'";
@@ -36,7 +36,7 @@ public class AccountStepdefs extends BaseStepDefs {
         this.context = context;
     }
     @Before
-    public void beforeAccount(Scenario scenario){
+    public void beforeAccount(Scenario scenario) {
         this.scenario = scenario;
     }
     
@@ -62,7 +62,7 @@ public class AccountStepdefs extends BaseStepDefs {
     }
     
     @Then("^Validate account is created/modified/get with attributes '(.+)'$")
-    public void validateAccountAttributes(String attributes){
+    public void validateAccountAttributes(String attributes) {
         String[] attrs = attributes.split(",");
         for(String current : attrs){
             String[] keyValue = current.split("=");
@@ -75,18 +75,17 @@ public class AccountStepdefs extends BaseStepDefs {
 
             String jsonPath = accountAttrPath + "[?(@.key=='"+attribute+"')].value";
             String actValue = baseline.getValue(context, jsonPath);
-            scenario.write("Actual value in the response: "+actValue);
-            scenario.write("Expected value: [\""+expValue+"\"]");
+            scenario.write("Actual value in the response: " + actValue);
+            scenario.write("Expected value: [\"" + expValue + "\"]");
             Assert.assertEquals("[\""+expValue+"\"]", actValue);
         }
     }
 
     @Then("^Validate account is deleted$")
-    public void validateAccountDelete(){
-
+    public void validateAccountDelete() {
             String jsonPath = "data.accountDelete";
             String respValue = baseline.getValue(context, jsonPath);
-            scenario.write("Actual value in the response: "+respValue);
+            scenario.write("Actual value in the response: " + respValue);
             scenario.write("Expected value: [\"true\"]");
             Assert.assertEquals("true", respValue.toString());
     }
@@ -110,7 +109,7 @@ public class AccountStepdefs extends BaseStepDefs {
     }
 
     @Then("^Attributes '(.+)' are modified for user '(.+)'$")
-    public void modifyAccount(String attrList, String name){
+    public void modifyAccount(String attrList, String name) {
         HashMap<String,Object> varMap = new HashMap<String,Object>();
         List<Object> attributes = setAttributes(attrList);
         varMap.put("attributes", attributes);
@@ -167,7 +166,7 @@ public class AccountStepdefs extends BaseStepDefs {
     private List<Object> setAttributes(String attrlist) {
         List<Object> attrList = new ArrayList<Object>();
         
-        for(String current: attrlist.split(",")){
+        for(String current: attrlist.split(",")) {
             Map<String,Object> attrs = new HashMap<String,Object>();
             String[] currentAttr = current.trim().split("=");
             attrs.put("key",currentAttr[0].trim());
@@ -180,7 +179,7 @@ public class AccountStepdefs extends BaseStepDefs {
     private String[] setAttributesOnly(String attributes) {
         String[] attrArr = attributes.split(",");
         String[] attrList = new String[attrArr.length];
-        for(int i=0; i < attrArr.length; i++){
+        for(int i=0; i < attrArr.length; i++) {
             String[] currentAttr = attrArr[i].trim().split("=");
             attrList[i] = (currentAttr[0].trim());
         }
