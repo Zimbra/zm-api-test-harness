@@ -116,15 +116,17 @@ public class Baseline {
 	public HttpResponse setResponse(HarnessContext context, CloseableHttpResponse actualResponse) {
 		response = new HttpResponse(startTime, endTime);
 		response.setStatus(actualResponse.getStatusLine().getStatusCode());
-		// response.setBody(body);
+
 		InputStream is;
 		try {
 			is = actualResponse.getEntity().getContent();
 			byte[] bytes = stringUtils.toByteStream(is).toByteArray();
 			String res = new String(bytes);
-			System.out.println("response is #" + res + "#");
-			DocumentContext respBody = JsonPath.parse(res);
-			response.setBody(respBody);
+			if (!res.isEmpty()) {
+				System.out.println("response is #" + res + "#");
+				DocumentContext respBody = JsonPath.parse(res);
+				response.setBody(respBody);
+			}
 		} catch (UnsupportedOperationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,6 +134,7 @@ public class Baseline {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		context.setResponse(response);
 		return response;
 	}

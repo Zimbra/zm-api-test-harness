@@ -27,7 +27,7 @@
 			<arg value="--plugin" />
 			<arg value="html:target/cucumber-html-report" />
 			<arg value="--tags" />
-			<arg value="@test" />
+			<arg value="@smxProxyMailbox" />
 			<arg value="--glue" />
 			<arg value="stepDefinitions" />
 			<arg value="src/java/features" />

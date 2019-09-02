@@ -113,10 +113,16 @@ public class HttpRequest {
 		uriBuilder.setPath(temp + path);
 		URI uri = uriBuilder.build();
 		requestBuilder = RequestBuilder.create(method.toUpperCase()).setUri(uri);
-		HttpEntity entity = prepareEntity(query);
-		requestBuilder.setEntity(entity);
-		for (String currentHeader : header.keySet()) {
-			requestBuilder.setHeader(currentHeader, header.get(currentHeader));
+
+		if (query != null)
+		{
+				HttpEntity entity = prepareEntity(query);
+				requestBuilder.setEntity(entity);
+		}
+		if (header != null) {
+    		for (String currentHeader : header.keySet()) {
+    			requestBuilder.setHeader(currentHeader, header.get(currentHeader));
+    		}
 		}
 
 		return requestBuilder;
@@ -127,7 +133,7 @@ public class HttpRequest {
 			String jsonString = jsonDoc.toJsonDoc(value).jsonString();
 			if (contentType == null) { // "bad" value such as an empty string
 				StringEntity entity = new StringEntity(jsonString);
-				entity.setContentType(mediaType);
+				    entity.setContentType(mediaType);
 				return entity;
 			} else {
 				return new StringEntity(jsonString, contentType);
