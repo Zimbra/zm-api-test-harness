@@ -1,4 +1,4 @@
-@getAccount
+@getAccount @smx
 Feature: Get account mutation
 
   Scenario Outline: Log in with admin user

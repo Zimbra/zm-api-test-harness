@@ -1,4 +1,4 @@
-@deleteAccount
+@deleteAccount @smx
 Feature: Delete account mutation
 
   Scenario Outline: Log in with admin user

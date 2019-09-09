@@ -1,4 +1,4 @@
-@createAccount
+@createAccount @smx
 Feature: Create account mutation
 
   Scenario Outline: Log in with admin user

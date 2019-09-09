@@ -1,4 +1,4 @@
-@modifyAccount
+@modifyAccount @smx
 Feature: Modify account mutation
 
   Scenario Outline: Log in with admin user

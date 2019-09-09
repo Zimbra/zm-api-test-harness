@@ -1,4 +1,4 @@
-@adminAuth
+@adminAuth @smx
 Feature: Admin auth mutation
 
   Scenario Outline: Validate authentication for admin account
