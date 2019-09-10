@@ -13,9 +13,10 @@ Feature: Get account mutation
 
   Scenario Outline: Create and Get account
     Given adminAuthToken is present in the cookies
-    And Create and Get user with name '<name>' password '<password>' attribute '<attributes>'
+    And Create user account with name '<name>' password '<password>'
+    Then Get user account with name '<name>' attribute '<attributes>'
     Then Validate account has attributes '<attributes>'
 
     Examples: 
       | name          | password | attributes                                             |
-      | account1@host | test123  | zimbraAccountStatus=pending, zimbraQuotaWarnPercent=20 |
+      | account1@host | test123  | zimbraAccountStatus=active, zimbraQuotaWarnPercent=90 |
