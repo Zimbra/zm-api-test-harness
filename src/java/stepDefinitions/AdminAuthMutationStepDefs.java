@@ -50,6 +50,10 @@ public class AdminAuthMutationStepDefs extends BaseStepDefs {
         Map<String, Object> authInput = new HashMap<String, Object>();
         Map<String, Object> account = new HashMap<String, Object>();
         Map<String, Object> varMap = new HashMap<String, Object>();
+        if(username.contains("host")){
+            String domain = globalProperties.getProperty("domain").trim();
+            username = username.split("@")[0]+"@"+domain;
+        }
         account.put("accountBy", "name");
         account.put("key", username);
         authInput.put("account", account);
