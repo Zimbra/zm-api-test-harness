@@ -58,7 +58,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String requestBody = "{" + createMutation + " , " + variables + "}";
 
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
-        scenario.write(response.getBody().toString());
+        scenario.write(response.getBody().jsonString());
         context.setResponse(response);
     }
     
@@ -106,7 +106,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variables = "'variables': " + variable;
         String requestBody = "{" + createMutation + " , " + variables + "}";
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
-        scenario.write(response.getBody().toString());
+        scenario.write(response.getBody().jsonString());
         context.setResponse(response);
     }
 
@@ -121,7 +121,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variables = "'variables': " + variable;
         String requestBody = "{" + modifyMutation + " , " + variables + "}";
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
-        scenario.write(response.getBody().toString());
+        scenario.write(response.getBody().jsonString());
         context.setResponse(response);
     }
 
@@ -137,13 +137,12 @@ public class AccountStepdefs extends BaseStepDefs {
         String variables = "'variables': " + variable;
         String requestBody = "{" + deleteAccountMutation + " , " + variables + "}";
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
-        scenario.write(response.getBody().toString());
+        scenario.write(response.getBody().jsonString());
         context.setResponse(response);
     }
 
-    @Given("^Create and Get user with name '(.+)' password '(.+)' attribute '(.+)'$")
-    public void getAccount(String name, String password, String attrList) {
-        this.createAccount(name, password, attrList);
+    @Given("^Get user account with name '(.+)' attribute '(.+)'$")
+    public void getAccount(String name, String attrList) {
         String accountNamePath = "data.accountCreate.account.name";
         String accountNameValue = baseline.getValue(context, accountNamePath);
         scenario.write("Actual value in the response: " + accountNameValue);
@@ -157,7 +156,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variables = "'variables': " + variable;
         String requestBody = "{" + getAccountMutation + " , " + variables + "}";
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
-        scenario.write(response.getBody().toString());
+        scenario.write(response.getBody().jsonString());
         context.setResponse(response);
     }
 
