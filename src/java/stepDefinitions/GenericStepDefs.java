@@ -34,7 +34,7 @@ public class GenericStepDefs extends BaseStepDefs {
 	public void setURI(String host, String paths) {
 		String server = globalProperties.getProperty("server");
 		String scheme = globalProperties.getProperty("scheme", "https");
-		String port = host.contains("admin") ? globalProperties.getProperty("adminPort") : globalProperties.getProperty("port");
+		String port = host.contains("Admin") ? globalProperties.getProperty("adminPort") : globalProperties.getProperty("port");
 		String path = globalProperties.getProperty(paths);
 		scenario.write("server :" + server);
 		scenario.write("scheme :" + scheme);
