@@ -13,7 +13,8 @@ Feature: Delete account mutation
 
   Scenario Outline: Delete account
     Given adminAuthToken is present in the cookies
-    When Create and Delete user account with name '<name>' password '<password>'
+    When Create user account with name '<name>' password '<password>'
+    When Delete user account with name '<name>'
     Then Validate account is deleted
 
     Examples: 

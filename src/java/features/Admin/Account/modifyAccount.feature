@@ -15,7 +15,7 @@ Feature: Modify account mutation
     Given adminAuthToken is present in the cookies
     And Create user account with name '<name>' password '<password>'
     When Attributes '<attributes>' are modified for user '<name>'
-    Then Validate account is created/modified with attributes '<attributes>'
+    Then Validate account has attributes '<attributes>'
 
     Examples: 
       | name          | password | attributes                                            |
