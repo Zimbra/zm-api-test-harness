@@ -15,7 +15,7 @@ Feature: Get account mutation
   Scenario Outline: Create and Get account
     Given adminAuthToken is present in the cookies
     And Create and Get user with name '<name>' password '<password>' attribute '<attributes>'
-    Then Validate account is created/modified/get with attributes '<attributes>'
+    Then Validate account has attributes '<attributes>'
 
     Examples: 
       | name | password            | attributes                                                                        |

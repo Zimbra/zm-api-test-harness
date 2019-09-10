@@ -14,7 +14,7 @@ Feature: Create account mutation
   Scenario Outline: Create account
     Given adminAuthToken is present in the cookies
     When Create user with name '<name>' password '<password>' attribute '<attributes>'
-    Then Validate account is created/modified with attributes '<attributes>'
+    Then Validate account has attributes '<attributes>'
 
     Examples: 
       | name          | password | attributes                                                                      |
@@ -24,7 +24,7 @@ Feature: Create account mutation
   Scenario Outline: Create account
     Given adminAuthToken is present in the cookies
     When Create user account with name '<name>' password '<password>'
-    Then Validate account is created/modified with attributes '<attributes>'
+    Then Validate account has attributes '<attributes>'
 
     Examples: 
       | name          | password | attributes                                            |

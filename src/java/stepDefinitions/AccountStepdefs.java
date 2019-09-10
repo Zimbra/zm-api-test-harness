@@ -61,7 +61,7 @@ public class AccountStepdefs extends BaseStepDefs {
         context.setResponse(response);
     }
     
-    @Then("^Validate account is created/modified/get with attributes '(.+)'$")
+    @Then("^Validate account has attributes '(.+)'$")
     public void validateAccountAttributes(String attributes) {
         String[] attrs = attributes.split(",");
         for(String current : attrs){
@@ -122,9 +122,8 @@ public class AccountStepdefs extends BaseStepDefs {
         context.setResponse(response);
     }
 
-    @Given("^Create and Delete user account with name '(.+)' password '(.+)'$")
+    @Given("^Delete user account with name '(.+)'$")
     public void deleteAccount(String name, String password) {
-        this.createAccountNoAttrs(name, password);
         String accountIdPath = "data.accountCreate.account.id";
         String accountIdValue = baseline.getValue(context, accountIdPath);
 
