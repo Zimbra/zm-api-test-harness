@@ -8,8 +8,8 @@ Feature: Modify account mutation
     Then set adminAuthToken in the cookie
 
     Examples: 
-      | server       | path             | headers                                               | username | password | status | valid | authToken       |
-      | zimbraAdminServer | gqlAdminEndpoint | Accept:application/json,Content-type:application/json | admin    | test123  |    200 | valid | zimbraAuthToken |
+      | server            | path             | headers                                               | username   | password | status | valid | authToken       |
+      | zimbraAdminServer | gqlAdminEndpoint | Accept:application/json,Content-type:application/json | admin@host | test123  |    200 | valid | zimbraAuthToken |
 
   Scenario Outline: Modify account
     Given adminAuthToken is present in the cookies
@@ -18,5 +18,5 @@ Feature: Modify account mutation
     Then Validate account has attributes '<attributes>'
 
     Examples: 
-      | name          | password | attributes                                            |
+      | name          | password | attributes                                             |
       | account1@host | test123  | zimbraAccountStatus=pending, zimbraQuotaWarnPercent=20 |

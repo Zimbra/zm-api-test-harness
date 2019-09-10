@@ -47,7 +47,7 @@ public class AccountStepdefs extends BaseStepDefs {
         varMap.put("attributes", attributes);
         varMap.put("password", password);
         if(name.contains("host")){
-            String domain = globalProperties.getProperty("server").trim();
+            String domain = globalProperties.getProperty("domain").trim();
             String randomName = name.split("@")[0] + generateRandomInt();
             name = randomName+"@"+domain;
         }
@@ -58,6 +58,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String requestBody = "{" + createMutation + " , " + variables + "}";
 
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
+        scenario.write(response.getBody().toString());
         context.setResponse(response);
     }
     
@@ -95,7 +96,7 @@ public class AccountStepdefs extends BaseStepDefs {
         HashMap<String,Object> varMap = new HashMap<String,Object>();
         varMap.put("password", password);
         if(name.contains("host")){
-            String domain = globalProperties.getProperty("server").trim();
+            String domain = globalProperties.getProperty("domain").trim();
             String randomName = name.split("@")[0] + generateRandomInt();
             name = randomName+"@"+domain;
         }
@@ -105,6 +106,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variables = "'variables': " + variable;
         String requestBody = "{" + createMutation + " , " + variables + "}";
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
+        scenario.write(response.getBody().toString());
         context.setResponse(response);
     }
 
@@ -119,6 +121,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variables = "'variables': " + variable;
         String requestBody = "{" + modifyMutation + " , " + variables + "}";
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
+        scenario.write(response.getBody().toString());
         context.setResponse(response);
     }
 
@@ -134,6 +137,7 @@ public class AccountStepdefs extends BaseStepDefs {
         String variables = "'variables': " + variable;
         String requestBody = "{" + deleteAccountMutation + " , " + variables + "}";
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
+        scenario.write(response.getBody().toString());
         context.setResponse(response);
     }
 
@@ -152,8 +156,8 @@ public class AccountStepdefs extends BaseStepDefs {
         String variable = var.toJSONString();
         String variables = "'variables': " + variable;
         String requestBody = "{" + getAccountMutation + " , " + variables + "}";
-
         HttpResponse response = baseline.processRequest(context, requestBody, HttpPost.METHOD_NAME);
+        scenario.write(response.getBody().toString());
         context.setResponse(response);
     }
 
