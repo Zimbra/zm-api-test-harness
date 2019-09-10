@@ -123,7 +123,7 @@ public class AccountStepdefs extends BaseStepDefs {
     }
 
     @Given("^Delete user account with name '(.+)'$")
-    public void deleteAccount(String name, String password) {
+    public void deleteAccount(String name) {
         String accountIdPath = "data.accountCreate.account.id";
         String accountIdValue = baseline.getValue(context, accountIdPath);
 
