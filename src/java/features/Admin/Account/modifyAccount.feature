@@ -9,7 +9,7 @@ Feature: Modify account mutation
 
     Examples: 
       | server       | path             | headers                                               | username | password | status | valid | authToken       |
-      | zimbraServer | gqlAdminEndpoint | Accept:application/json,Content-type:application/json | admin    | test123  |    200 | valid | zimbraAuthToken |
+      | zimbraAdminServer | gqlAdminEndpoint | Accept:application/json,Content-type:application/json | admin    | test123  |    200 | valid | zimbraAuthToken |
 
   Scenario Outline: Modify account
     Given adminAuthToken is present in the cookies
