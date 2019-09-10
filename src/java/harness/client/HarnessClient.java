@@ -34,19 +34,21 @@ public class HarnessClient {
 	}
 
 	public HttpClientBuilder prepareClientBuilder(HttpUriRequest requestBuilder) throws Exception {
-	    factory = new HttpClientFactory().getSocketFactory();
-	    clientBuilder = HttpClientBuilder.create();
+		factory = new HttpClientFactory().getSocketFactory();
+		clientBuilder = HttpClientBuilder.create();
 		clientBuilder.setRedirectStrategy(new LaxRedirectStrategy());
 		clientBuilder.setDefaultCookieStore(cookieStore);
 		clientBuilder.setSSLSocketFactory(factory);
+		SSLContext sslcontext = SSLContexts.custom().useSSL().build();
+		sslcontext.init(null, new X509TrustManager[]{new HttpsTrustManager()}, new SecureRandom());
+		SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext,
+				SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+		clientBuilder.setRedirectStrategy(new LaxRedirectStrategy());
+		clientBuilder.setDefaultCookieStore(cookieStore);
+		clientBuilder.setSSLSocketFactory(factory);
+
 		RequestConfig.Builder configBuilder = RequestConfig.custom().setConnectTimeout(TIMEOUT)
 				.setSocketTimeout(TIMEOUT);
-
-		SSLContext sslcontext = SSLContexts.custom().useSSL().build();
-        sslcontext.init(null, new X509TrustManager[]{new HttpsTrustManager()}, new SecureRandom());
-        SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext,
-                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-
 
 		clientBuilder.setDefaultRequestConfig(configBuilder.build());
 		return clientBuilder;
