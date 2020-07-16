@@ -136,7 +136,7 @@ public class Baseline {
 		return response;
 	}
 
-	public String getValue(HarnessContext context, String jsonPath) {
+	public Object getValue(HarnessContext context, String jsonPath) {
 		jsonPath = "$." + jsonPath;
 		response = context.getResponse();
 		Object res = "";
